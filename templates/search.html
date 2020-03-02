@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>日记站-{{ author_name }}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-theme.css') }}" rel="stylesheet">
+
+    <style type="text/css">
+    body {
+      padding-top: 50px;
+      background-color: #eee
+    }
+
+    </style>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for('index_diary') }}">日记站</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="{{ url_for('index_diary') }}">首页</a></li>
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="jumbotron">
+      <div class="container">
+        <h1>学生日记</h1>
+        <p>仅供学习，请勿用作商业用途</p>
+        
+        <p>当前查询作者：{{ author_name }}</p>
+      </div><!-- /.container -->
+    </div>
+    <div class="container">
+
+        <form class="input-group" action="{{ url_for('find_by_author_2') }}" method="get" style="width:40%;">
+          <input type="text" class="form-control" placeholder="请输入要查询的作者名..." name="author_name">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Go!</button>
+          </span>
+        </form>
+
+    </div>
+    <div class="container">
+
+      <div class="list-group">
+        {% if number!=0 %}
+        <div class="alert alert-success" role="alert">共查询到(placeholder)篇文章</div>
+          {% for diary in diary_list.items %}
+
+            <a href="{{ url_for('diary_detail', id=diary.id) }}" class="list-group-item">
+              <h5>{{ diary.title }}</h5>
+              <p class="list-group-item-text">作者：{{ diary.author }}&nbsp;&nbsp;&nbsp;&nbsp;Tag：{{ diary.labels }}</p>
+              <p>创建日期：{{ diary.createTime }}</p>
+
+            </a>
+          {% endfor %}
+        {% else %}
+          <div class="alert alert-danger" role="alert">对不起，没有查询到该作者的文章</div>
+        {% endif %}
+        
+      </div>
+      <ul id="navigation">
+
+      </ul>
+
+      <nav aria-label="Page navigation">
+        <ul class="pagination">
+          {% if diary_list.has_prev %}
+          <li>
+            <a href="{{ url_for('find_by_author', name=author_name, pg=diary_list.page-1) }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="disabled">
+            <a aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          {% endif %}
+          {%- for page in diary_list.iter_pages() %}
+            {% if page %}
+              {% if page != diary_list.page %}
+                <li><a href="{{ url_for('find_by_author', name=author_name, pg=page) }}">{{ page }}</a></li>
+              {% else %}
+                <li class='active'><a >{{ page }}</a><li>
+              {% endif %}
+            {% else %}
+              <li><span class=ellipsis>…</span></li>
+            {% endif %}
+          {%- endfor %}
+
+
+          {% if diary_list.has_next %}
+          <li>
+            <a href="{{ url_for('find_by_author', name=author_name, pg=diary_list.page+1) }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% else %}
+          <li class="disabled">
+            <a aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+
+      <p><br></p>
+    </div><!-- /.container -->
+  </body>
+</html>

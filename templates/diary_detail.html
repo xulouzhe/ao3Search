@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>日记站-{{ diary.title }}</title>
+
+    <!-- Bootstrap -->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap-theme.css') }}" rel="stylesheet">
+
+    <style type="text/css">
+    body { 
+      padding-top: 50px; 
+      background-color: #eee
+    }
+
+    </style>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{{ url_for('index_diary') }}">首页</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a >日记</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    <div class="jumbotron">
+      <div class="container">
+        <h1>{{ diary.title }}</h1>
+        <h4><br>作者：{{ diary.realname }}</h4>
+        <h4>分类：{{ diary.labels }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来源：{{ diary.source }}</h4>
+        <h5><br>ID：{{ diary.id }}</h5>
+        <h5>创建日期：{{ diary.createTime }}</h5>
+        <h5><a href="{{ diary.url }}">阅读原文</a></h5>
+        <div class="container">
+          <p><br />&nbsp;&nbsp;&nbsp;&nbsp;{{ diary.words }}<br /><br /></p>
+        </div>
+        
+      </div>
+    </div>
+    <div class="foot">
+      <div class="container">
+        <nav aria-label="...">
+          <ul class="pager">
+            {% if diary.id == 1 %}
+            <li class="previous disabled"><a ><span aria-hidden="true">&larr;</span> Previous</a></li>
+            {% else %}
+            <li class="previous"><a href="{{ url_for('diary_detail', id=diary.id-1) }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
+            {% endif %}
+            {% if diary.id == 32742 %}
+            <li class="next disabled"><a >Next <span aria-hidden="true">&rarr;</span></a></li>
+            {% else %}
+            <li class="next"><a href="{{ url_for('diary_detail', id=diary.id+1) }}">Next <span aria-hidden="true">&rarr;</span></a></li>
+            {% endif %}
+          </ul>
+        </nav>
+        
+      </div>
+      
+    </div>
+</html>
