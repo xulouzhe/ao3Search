@@ -16,20 +16,6 @@
       padding-top: 50px; 
       background-color: #eee
     }
-    dl.meta {
-    border: 1px solid #ccc;
-    clear: right;
-    padding: 1.286em .75em;
-    position: relative;
-    overflow: hidden;
-    }
-    dl {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    }
     </style>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -66,8 +52,9 @@
           {% endfor %}
 
         </ul>
-        <h1>{{ articleDetail.title }}</h1>
+        <h2>{{ articleDetail.title }}</h2>
         <h4><br>作者：{{ articleDetail.author }}</h4>
+        <h4>章节：{{ articleDetail.chapterTitle }}<br></h4>
         <h5><a href="{{ articleDetail.url }}">文章来源</a></h5>
         <div class="container">
           <p><br />{{ articleDetail.content | safe }}<br /><br /></p>

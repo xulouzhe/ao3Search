@@ -2,11 +2,14 @@ import requests
 from lxml import etree
 from items import articleItem
 import re
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
+}
 
 
 def GetArticle(name, page=1):
     url = "https://archiveofourown.org/works/search?page={0}utf8=%E2%9C%93&work_search%5Bquery%5D={1}".format(page, name)
-    res = requests.get(url=url)
+    res = requests.get(url=url, headers=headers)
     res = etree.HTML(res.text)
 
 

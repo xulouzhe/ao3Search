@@ -40,6 +40,7 @@ def SearchByPage():
 
 
 @app.route('/works/<int:id>/')
+@app.route('/works/<int:id>')
 def diary_detail(id):
     articleDetail = GetDetail(id)
 
