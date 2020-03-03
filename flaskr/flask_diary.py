@@ -1,11 +1,7 @@
 from flask import Flask,render_template,request,redirect,url_for
-# import requests
-# from flask_sqlalchemy import SQLAlchemy
 from getcontent import GetArticle
 
 app = Flask(__name__)
-
-
 
 @app.route('/')
 def index():
