@@ -31,10 +31,16 @@ def GetDetail(id, chapter=None, full=None):
         # print(res)
         # print(res.text)
         html = etree.HTML(res.text)
-        contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
-        # for x in contents:
-        #     x = re.sub(r"\s", "", x)
+
+
+        contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
         content = "<br /><br />".join(contents)
+        print("1")
+        if (content is None) or (re.sub(r"\s", "", content) == ""):
+            contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
+            content = "<br /><br />".join(contents)
+            print("2")
+
         # content = re.sub(r"\s", "", content)
         wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8")) for x in html.xpath('//dl[@class="work meta group"]/*')]
         newWrapper = [(x + ' ' + y) for (x, y) in zip(wrapper[0::2], wrapper[1::2])]
