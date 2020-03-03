@@ -24,9 +24,14 @@ def diary_detail(id):
 def search():
     '''查询keyword'''
     keyword = request.args.get('keyword')
-    articleList, pagenation = GetArticle(keyword)
+    articleList, pagenation, articleNumber = GetArticle(keyword)
     # return res
-    return render_template('search.html', articleList = articleList, keyword=keyword, pagenation=pagenation)
+    return render_template('search.html',
+                           articleList = articleList,
+                           keyword=keyword,
+                           pagenation=pagenation,
+                           page=1,
+                           articleNumber=articleNumber)
 
 @app.route('/works/search')
 def SearchByPage():
@@ -34,10 +39,14 @@ def SearchByPage():
     keyword = request.args.get('work_search[query]')
     print("keyword", keyword)
     page = request.args.get('page')
-    articleList, pagenation = GetArticle(keyword, page)
+    articleList, pagenation, articleNumber = GetArticle(keyword, page)
     # return res
-    return render_template('search.html', articleList=articleList, keyword=keyword,
-                           pagenation=pagenation)
+    return render_template('search.html',
+                           articleList=articleList,
+                           keyword=keyword,
+                           pagenation=pagenation,
+                           page=page,
+                           articleNumber=articleNumber)
 #
 # @app.route('/author/<name>/<int:pg>')
 # def find_by_author(name=None,pg=None):
