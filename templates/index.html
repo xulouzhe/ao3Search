@@ -13,9 +13,16 @@
     
     <style type="text/css">
     body { 
-      padding-top: 50px; 
+      padding-top:200px;
       background-color: #eee
     }
+      div{
+	position:absolute;
+    top:50%;
+    left:30%;
+    margin:auto;
+}
+
 
     </style>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -27,12 +34,13 @@
   </head>
   <body>
     <div class="col-lg-6">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search for...">
+      <form class="input-group" action="{{ url_for('search', keyword=keyword) }}" method="get" style="width:40%">
+        <input type="text" class="form-control" placeholder="请输入要查询的内容..." name="keyword" >
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button">Go!</button>
+          <button class="btn btn-default" type="submit" >Go!</button>
         </span>
-      </div><!-- /input-group -->
+      </form><!-- /input-group -->
+
     </div><!-- /.col-lg-6 -->
   </body>
 

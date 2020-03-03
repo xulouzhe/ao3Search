@@ -20,12 +20,24 @@ def diary_detail(id):
     pass
     # return  render_template('diary_detail.html',diary=diary)
 
-@app.route('/search/<keyword>')
-def find_by_author_2(keyword):
+@app.route('/search')
+def search():
     '''查询keyword'''
-    res = GetArticle(keyword)
-    return res
-    # return render_template('search.html', res = res)
+    keyword = request.args.get('keyword')
+    articleList, pagenation = GetArticle(keyword)
+    # return res
+    return render_template('search.html', articleList = articleList, keyword=keyword, pagenation=pagenation)
+
+@app.route('/works/search')
+def SearchByPage():
+    '''查询keyword'''
+    keyword = request.args.get('work_search[query]')
+    print("keyword", keyword)
+    page = request.args.get('page')
+    articleList, pagenation = GetArticle(keyword, page)
+    # return res
+    return render_template('search.html', articleList=articleList, keyword=keyword,
+                           pagenation=pagenation)
 #
 # @app.route('/author/<name>/<int:pg>')
 # def find_by_author(name=None,pg=None):
@@ -41,4 +53,4 @@ def find_by_author_2(keyword):
 
 if __name__ == '__main__':
 
-    app.run(host='0.0.0.0', port=8080)
+    app.run(host='0.0.0.0', port=8080, debug=True)
