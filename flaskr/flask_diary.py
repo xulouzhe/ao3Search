@@ -1,20 +1,14 @@
 from flask import Flask,render_template,request,redirect,url_for
 from getcontent import GetArticle
+from getdetail import GetDetail
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-    # res = requests.get('https://archiveofourown.org/')
-    # return res.text
-    # getArticle()
     return render_template('index.html')
 
-@app.route('/detail/<int:id>/')
-def diary_detail(id):
-    '''查询id'''
-    pass
-    # return  render_template('diary_detail.html',diary=diary)
+
 
 @app.route('/search')
 def search():
@@ -43,18 +37,15 @@ def SearchByPage():
                            pagenation=pagenation,
                            page=page,
                            articleNumber=articleNumber)
-#
-# @app.route('/author/<name>/<int:pg>')
-# def find_by_author(name=None,pg=None):
-#     '''查询name'''
-#     if pg is None:
-#         pg = 1
-#     if (name is None):
-#         return redirect(url_for('index_diary'))
-#     Diary_temp = Diary.query.filter_by(realname=name)
-#     number = len(Diary_temp.all())
-#     diary_list = Diary_temp.paginate(page=pg, per_page=10)
-#     return  render_template("search.html", diary_list=diary_list, author_name=name, number=number)
+
+
+@app.route('/works/<int:id>/')
+def diary_detail(id):
+    articleDetail = GetDetail(id)
+
+    return  render_template('articledetail.html', articleDetail=articleDetail)
+
+
 
 if __name__ == '__main__':
 

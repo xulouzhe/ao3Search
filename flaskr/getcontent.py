@@ -9,22 +9,30 @@ def GetArticle(name, page=1):
     res = requests.get(url=url)
     res = etree.HTML(res.text)
 
-    pagenation = GetPagenation(res)
-    number = GetArticleNumber(res)
-    print(number)
+
 
     articles = res.xpath("//ol[@class='work index group']/li")
     # for x in articleLists:
     #     print(x.xpath("./div/h4/a/text()")) # 这里返回的是一个列表， 包含题目与作者两项
     #     print()
     articleList = []
-    for article in articles:
-        article1 = articleItem()
-        article1.title = article.xpath("./div/h4/a/text()")[0]
-        article1.author = article.xpath("./div/h4/a/text()")[1]
-        article1.tag = article.xpath("./div/h5/a/text()")[0]
-        article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
-        articleList.append(article1)
+    if not len(articles) == 0:
+        for article in articles:
+            article1 = articleItem()
+            article1.title = article.xpath("./div/h4/a/text()")[0]
+            article1.url = article.xpath("./div/h4/a/@href")[0]
+            article1.author = article.xpath("./div/h4/a/text()")[1]
+            article1.tag = article.xpath("./div/h5/a/text()")[0]
+            article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
+
+            articleList.append(article1)
+
+
+    else:
+        return None, None, 0
+    pagenation = GetPagenation(res)
+    number = GetArticleNumber(res)
+    # print(number)
     return articleList, pagenation, number
 
 def GetArticleNumber(res):

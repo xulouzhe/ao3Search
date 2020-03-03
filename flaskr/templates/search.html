@@ -69,15 +69,13 @@
     <div class="container">
 
       <div class="list-group">
-        {% if number!=0 %}
+        {% if articleNumber!=0 %}
         <div class="alert alert-success" role="alert">查询完成</div>
           {% for article in articleList %}
-
-            <a href="" class="list-group-item">
+            <a href="{{ article.url }}" class="list-group-item">
               <h4>{{ article.title }}</h4>
               <p class="list-group-item-text">作者：{{ article.author }}&nbsp;&nbsp;&nbsp;&nbsp;Tag：{{ article.tag }}</p>
-              <p>创建日期：{{ article.createTime }}</p>
-
+              <p>{{ article.createTime }}</p>
             </a>
           {% endfor %}
         {% else %}
@@ -85,7 +83,9 @@
         {% endif %}
         
       </div>
-      {{ pagenation | safe }}
+      {% if articleNumber!=0 %}
+        {{ pagenation | safe }}
+      {% endif %}
     </div><!-- /.container -->
   </body>
 </html>

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>日记站-{{ diary.title }}</title>
+    <title>AO搜索</title>
 
     <!-- Bootstrap -->
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
@@ -16,7 +16,20 @@
       padding-top: 50px; 
       background-color: #eee
     }
-
+    dl.meta {
+    border: 1px solid #ccc;
+    clear: right;
+    padding: 1.286em .75em;
+    position: relative;
+    overflow: hidden;
+    }
+    dl {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    }
     </style>
     <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
     <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
@@ -36,47 +49,35 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="{{ url_for('index_diary') }}">首页</a>
+          <a class="navbar-brand" href="{{ url_for('index') }}">首页</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a >日记</a></li>
+            <li class="active"><a >Article</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
     </nav>
     <div class="jumbotron">
       <div class="container">
-        <h1>{{ diary.title }}</h1>
-        <h4><br>作者：{{ diary.realname }}</h4>
-        <h4>分类：{{ diary.labels }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来源：{{ diary.source }}</h4>
-        <h5><br>ID：{{ diary.id }}</h5>
-        <h5>创建日期：{{ diary.createTime }}</h5>
-        <h5><a href="{{ diary.url }}">阅读原文</a></h5>
+        <ul class="list-group">
+          {% for wrapper in articleDetail.wrapper %}
+            <li class="list-group-item">{{ wrapper|safe }}</li>
+          {% endfor %}
+
+        </ul>
+        <h1>{{ articleDetail.title }}</h1>
+        <h4><br>作者：{{ articleDetail.author }}</h4>
+        <h5><a href="{{ articleDetail.url }}">文章来源</a></h5>
         <div class="container">
-          <p><br />&nbsp;&nbsp;&nbsp;&nbsp;{{ diary.words }}<br /><br /></p>
+          <p><br />{{ articleDetail.content | safe }}<br /><br /></p>
         </div>
         
       </div>
     </div>
     <div class="foot">
-      <div class="container">
-        <nav aria-label="...">
-          <ul class="pager">
-            {% if diary.id == 1 %}
-            <li class="previous disabled"><a ><span aria-hidden="true">&larr;</span> Previous</a></li>
-            {% else %}
-            <li class="previous"><a href="{{ url_for('diary_detail', id=diary.id-1) }}"><span aria-hidden="true">&larr;</span> Previous</a></li>
-            {% endif %}
-            {% if diary.id == 32742 %}
-            <li class="next disabled"><a >Next <span aria-hidden="true">&rarr;</span></a></li>
-            {% else %}
-            <li class="next"><a href="{{ url_for('diary_detail', id=diary.id+1) }}">Next <span aria-hidden="true">&rarr;</span></a></li>
-            {% endif %}
-          </ul>
-        </nav>
-        
-      </div>
+
       
     </div>
+  </body>
 </html>
