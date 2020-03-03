@@ -46,6 +46,21 @@
     </nav>
     <div class="jumbotron">
       <div class="container">
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+          {% if urls.get('PreviousChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('PreviousChapterURL')}}">上一章</a></button>
+          {% endif %}
+          {% if urls.get('NextChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('NextChapterURL')}}">下一章</a></button>
+          {% endif %}
+          {% if urls.get('EntireChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('EntireChapterURL')}}">给爷看全文</a></button>
+          {% endif %}
+          {% if full %}
+          <button type="button" class="btn btn-default"><a href="{{ rawurl }}">分章节阅读</a></button>
+          {% endif %}
+          <p><br /></p>
+        </div>
         <ul class="list-group">
           {% for wrapper in articleDetail.wrapper %}
             <li class="list-group-item">{{ wrapper|safe }}</li>
@@ -54,12 +69,26 @@
         </ul>
         <h2>{{ articleDetail.title }}</h2>
         <h4><br>作者：{{ articleDetail.author }}</h4>
-        <h4>章节：{{ articleDetail.chapterTitle }}<br></h4>
         <h5><a href="{{ articleDetail.url }}">文章来源</a></h5>
         <div class="container">
+          <h3>{{ articleDetail.chapterTitle }}<br></h3>
           <p><br />{{ articleDetail.content | safe }}<br /><br /></p>
         </div>
-        
+        <div class="btn-group btn-group-sm" role="group" aria-label="...">
+          <button type="button" class="btn btn-default"><a href="#">回顶部</a></button>
+          {% if urls.get('PreviousChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('PreviousChapterURL')}}">上一章</a></button>
+          {% endif %}
+          {% if urls.get('NextChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('NextChapterURL')}}">下一章</a></button>
+          {% endif %}
+          {% if urls.get('EntireChapterURL') %}
+          <button type="button" class="btn btn-default"><a href="{{urls.get('EntireChapterURL')}}">给爷看全文</a></button>
+          {% endif %}
+          {% if full %}
+          <button type="button" class="btn btn-default"><a href="{{ rawurl }}">分章节阅读</a></button>
+          {% endif %}
+        </div>
       </div>
     </div>
     <div class="foot">

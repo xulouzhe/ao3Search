@@ -10,18 +10,14 @@
     <!-- Bootstrap -->
     <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/bootstrap-theme.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/cover.css') }}" rel="stylesheet">
     
     <style type="text/css">
     body { 
-      padding-top:200px;
-      background-color: #eee
+      padding-top:0px;
+      /*background-color: #eee*/
     }
-      div{
-	position:absolute;
-    top:50%;
-    left:30%;
-    margin:auto;
-}
+
 
 
     </style>
@@ -33,15 +29,33 @@
     <![endif]-->
   </head>
   <body>
-    <div class="col-lg-6">
-      <form class="input-group" action="{{ url_for('search', keyword=keyword) }}" method="get" style="width:40%">
-        <input type="text" class="form-control" placeholder="请输入要查询的内容..." name="keyword" >
-        <span class="input-group-btn">
-          <button class="btn btn-default" type="submit" >Go!</button>
-        </span>
-      </form><!-- /input-group -->
+<div class="site-wrapper">
 
-    </div><!-- /.col-lg-6 -->
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="inner cover">
+            <h1 class="cover-heading" >AO3<br></h1>
+            <form class="input-group" action="{{ url_for('search', keyword=keyword) }}" method="get" style=";text-align: center;">
+              <input type="text" class="form-control" placeholder="请输入要查询的内容..." name="keyword" >
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" >Go!</button>
+              </span>
+            </form><!-- /input-group -->
+
+            <p class="lead"><br>I Disapprove of What You Say.</p>
+            <p class="lead">But I Will Defend to the Death Your Right to Say It.</p>
+
+          </div>
+
+          <div class="mastfoot">
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   </body>
 
 </html>
