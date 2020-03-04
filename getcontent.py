@@ -69,13 +69,18 @@ def GetArticle(name, page=1):
             article1.author = article.xpath("./div/h4/a/text()")[1]
             article1.tag = article.xpath("./div/h5/a/text()")[0]
             article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
-
+            try:
+                article1.summary = article.xpath("./blockquote[contains(@class, 'summary')]/p/text()")[0]
+            except:
+                pass
             articleList.append(article1)
-
 
     else:
         return None, None, 0
-    pagenation = GetPagenation(res)
+    try:
+        pagenation = GetPagenation(res)
+    except:
+        pagenation = False
     number = GetArticleNumber(res)
     # print(number)
     return articleList, pagenation, number

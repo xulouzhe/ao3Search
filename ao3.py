@@ -35,6 +35,8 @@ def SearchByPage():
     page = request.args.get('page')
     articleList, pagenation, articleNumber = GetArticle(keyword, page)
     # return res
+    if not pagenation:
+        page = 1
     return render_template(
         'search.html',
         articleList=articleList,
