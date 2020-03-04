@@ -14,7 +14,7 @@
           <ul class="nav navbar-nav">
             <li class=""><a href="{{ url_for('Search', keyword='') }}">搜索</a></li>
             <li class=""><a href="{{ url_for('SearchAuthor', authorName='') }}">作者</a></li>
-            <li class="active"><a href="">作品</a></li>
+            <li class="active"><a >作品</a></li>
           </ul>
         </div><!--/.nav-collapse -->
 {% endblock %}
@@ -35,6 +35,7 @@
           {% if full %}
           <button type="button" class="btn btn-default"><a href="{{ rawurl }}">分章节阅读</a></button>
           {% endif %}
+            <button type="button" class="btn btn-default"><a href="{{ url_for('SearchAuthor', authorName=articleDetail.author) }}">爷要看这个作者</a></button>
           <p><br /></p>
         </div>
         <ul class="list-group">

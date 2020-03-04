@@ -25,6 +25,7 @@
         <p>当前查询作者：{{ name }}</p>
         <p>搜索到结果数：{{ articleNumber }}</p>
         <p>当前页面：{{ page }}</p>
+          <p>请输入完整作者名，可以不区分大小写</p>
       </div><!-- /.container -->
     </div>
 {% endblock %}
@@ -32,8 +33,8 @@
 {% block result %}
     <div class="container">
 
-        <form class="input-group" action="{{ url_for('SearchAuthor', authorName=authorName) }}" method="get" style="width:40%;">
-          <input type="text" class="form-control" placeholder="请输入要查询的内容..." name="authorName" >
+        <form class="input-group" action="{{ url_for('SearchAuthor', authorName=authorName) }}" method="get" style="width:60%;">
+          <input type="text" class="form-control" placeholder="请输入要查询的作者名..." name="authorName" >
           <span class="input-group-btn">
             <button class="btn btn-default" type="submit">搜!</button>
           </span>
@@ -59,7 +60,9 @@
 
       </div>
       {% if articleNumber!=0 %}
-        {{ pagenation | safe }}
+        {% if pagenation %}
+          {{ pagenation | safe }}
+        {% endif %}
       {% endif %}
     </div><!-- /.container -->
 {% endblock %}

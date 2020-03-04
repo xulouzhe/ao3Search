@@ -32,7 +32,7 @@
 {% block result %}
     <div class="container">
 
-        <form class="input-group" action="{{ url_for('Search', keyword=keyword) }}" method="get" style="width:40%;">
+        <form class="input-group" action="{{ url_for('Search', keyword=keyword) }}" method="get" style="width:60%;">
           <input type="text" class="form-control" placeholder="请输入要查询的内容..." name="keyword" >
           <span class="input-group-btn">
             <button class="btn btn-default" type="submit">搜!</button>
@@ -48,7 +48,7 @@
           {% for article in articleList %}
             <a href="{{ article.url }}" class="list-group-item">
               <h4>{{ article.title }}</h4>
-              <p class="list-group-item-text">作者：{{ article.author }}&nbsp;&nbsp;&nbsp;&nbsp;Tag：{{ article.tag }}</p>
+              <p class="list-group-item-text" href="{{ url_for('SearchAuthor', authorName=article.author) }}">作者：{{ article.author }}&nbsp;&nbsp;&nbsp;&nbsp;Tag：{{ article.tag }}</p>
               <p>{{ article.summary }}</p>
               <p>{{ article.createTime }}</p>
             </a>
