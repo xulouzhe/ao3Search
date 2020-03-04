@@ -94,8 +94,8 @@ def ArticleChapter(id, chapter):
 #     )
 
 @app.route('/users/')
-@app.route('/users/<authorName>')
 @app.route('/users/<authorName>/works')
+@app.route('/users/<authorName>')
 def SearchAuthor(authorName=None):
     '''查询author_name'''
     if (authorName is None) and (request.args.get("authorName") is None):
