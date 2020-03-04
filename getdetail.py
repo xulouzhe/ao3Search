@@ -3,7 +3,8 @@ from lxml import etree
 from items import articleDetailItem
 import re
 headers = {
-    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,\
+    */*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'accept-encoding': 'gzip, deflate, br',
     'accept-language': 'zh-CN,zh;q=0.9',
     'referer': 'https://archiveofourown.org/',
@@ -12,8 +13,10 @@ headers = {
     'sec-fetch-site': 'same-origin',
     'sec-fetch-user': '?1',
     'upgrade-insecure-requests': '1',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) \
+    Chrome/80.0.3987.122 Safari/537.36',
 }
+
 
 def GetDetail(id, chapter=None, full=None):
     if chapter is None:
@@ -32,7 +35,6 @@ def GetDetail(id, chapter=None, full=None):
         # print(res.text)
         html = etree.HTML(res.text)
 
-
         contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
         content = "<br /><br />".join(contents)
         print("1")
@@ -42,7 +44,8 @@ def GetDetail(id, chapter=None, full=None):
             print("2")
 
         # content = re.sub(r"\s", "", content)
-        wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8")) for x in html.xpath('//dl[@class="work meta group"]/*')]
+        wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
+                   for x in html.xpath('//dl[@class="work meta group"]/*')]
         newWrapper = [(x + ' ' + y) for (x, y) in zip(wrapper[0::2], wrapper[1::2])]
         # print(content)
         articleDetail = articleDetailItem()
