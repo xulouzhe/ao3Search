@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask,render_template,request,redirect,url_for
 from getcontent import GetArticle
 from getdetail import GetDetail

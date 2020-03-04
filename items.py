@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 
 class articleItem(object):
     def __init__(self):
