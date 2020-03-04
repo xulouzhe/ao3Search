@@ -3,6 +3,7 @@ import requests
 from lxml import etree
 from items import articleItem
 import re
+
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
     'accept-encoding': 'gzip, deflate, br',
@@ -16,45 +17,39 @@ headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36',
 }
 
-
-def GetArticle(name, page=1):
-    url = "https://archiveofourown.org/works/search?page={0}utf8=%E2%9C%93&work_search%5Bquery%5D={1}".format(page, name)
-    res = requests.get(url=url, headers=headers)
-    res = etree.HTML(res.text)
-
-
-
-    articles = res.xpath("//ol[@class='work index group']/li")
-    # for x in articleLists:
-    #     print(x.xpath("./div/h4/a/text()")) # 这里返回的是一个列表， 包含题目与作者两项
-    #     print()
-    articleList = []
-    if not len(articles) == 0:
-        for article in articles:
-            article1 = articleItem()
-            article1.title = article.xpath("./div/h4/a/text()")[0]
-            article1.url = article.xpath("./div/h4/a/@href")[0]
-            article1.author = article.xpath("./div/h4/a/text()")[1]
-            article1.tag = article.xpath("./div/h5/a/text()")[0]
-            article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
-
-            articleList.append(article1)
-
-
-    else:
-        return None, None, 0
-    pagenation = GetPagenation(res)
-    number = GetArticleNumber(res)
-    # print(number)
-    return articleList, pagenation, number
+# def GetArticle(name, page=1):
+#     url = "https://archiveofourown.org/works/search?page={0}utf8=%E2%9C%93&work_search%5Bquery%5D={1}".format(page, name)
+#     res = requests.get(url=url, headers=headers)
+#     res = etree.HTML(res.text)
+#
+#     articles = res.xpath("//ol[@class='work index group']/li")
+#     # for x in articleLists:
+#     #     print(x.xpath("./div/h4/a/text()")) # 这里返回的是一个列表， 包含题目与作者两项
+#     #     print()
+#     articleList = []
+#     if not len(articles) == 0:
+#         for article in articles:
+#             article1 = articleItem()
+#             article1.title = article.xpath("./div/h4/a/text()")[0]
+#             article1.url = article.xpath("./div/h4/a/@href")[0]
+#             article1.author = article.xpath("./div/h4/a/text()")[1]
+#             article1.tag = article.xpath("./div/h5/a/text()")[0]
+#             article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
+#
+#             articleList.append(article1)
+#
+#     else:
+#         return None, None, 0
+#     pagenation = GetPagenation(res)
+#     number = GetArticleNumber(res)
+#     # print(number)
+#     return articleList, pagenation, number
 
 
 def GetArticle(name, page=1):
-    url = "https://archiveofourown.org/works/search?page={0}utf8=%E2%9C%93&work_search%5Bquery%5D={1}".format(page, name)
+    url = "https://archiveofourown.org/works/search?page={0}&utf8=%E2%9C%93&work_search%5Bquery%5D={1}".format(page, name)
     res = requests.get(url=url, headers=headers)
     res = etree.HTML(res.text)
-
-
 
     articles = res.xpath("//ol[@class='work index group']/li")
     # for x in articleLists:
@@ -93,7 +88,7 @@ def GetArticleNumber(res):
 
 def GetPagenation(res):
     pagenation = res.xpath("//ol[@class='pagination actions']")[0]
-    print(etree.tostring(pagenation).decode("utf-8"))
+    # print(etree.tostring(pagenation).decode("utf-8"))
     return ParsePagenation(etree.tostring(pagenation).decode("utf-8"))
 
 def ParsePagenation(pagenation):

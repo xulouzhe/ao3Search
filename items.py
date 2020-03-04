@@ -7,6 +7,7 @@ class articleItem(object):
         tag = ""
         createTime = ""
         url = ""
+        summary = ""
 
 
 class articleDetailItem(object):
