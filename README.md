@@ -23,5 +23,15 @@
 ### v1.0
 - 创建项目
 
+## 网页截屏
+#### 首页
+![首页](screenshots/首页.png) 
+#### 查询页
+![查询页](screenshots/查询页.png)
+#### 文章页
+![文章页](screenshots/文章页.png)
+#### 查询作者
+![查询作者](screenshots/查询作者页.png)
+
 
 
