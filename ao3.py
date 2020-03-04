@@ -4,8 +4,7 @@ from getcontent import GetArticle
 from getdetail import GetDetail
 from get_author import GetAuthorWorks
 import re
-import sys
-sys.setdefaultencoding("utf-8")
+
 
 app = Flask(__name__)
 
@@ -88,9 +87,37 @@ def ArticleChapter(id, chapter):
             rawurl=re.sub(r"\?.+?$","",request.url)
         )
 
-@app.route('/users/<name>')
-def GetAuthor(name):
-    pass
+# @app.route('/users/')
+# def AuthorIndex():
+#     return render_template(
+#         'authorIndex.html',
+#     )
+
+@app.route('/users/')
+@app.route('/users/<authorName>')
+def SearchAuthor(authorName=None):
+    '''查询author_name'''
+    if (authorName is None) and (request.args.get("authorName") is None):
+        return render_template(
+            'authorIndex.html',
+        )
+    else:
+        if authorName is None:
+            authorName = request.args.get("authorName")
+
+    page = request.args.get('page')
+    articleList, pagenation, articleNumber = GetAuthorWorks(authorName, page)
+    # return res
+    if not pagenation:
+        page = 1
+    return render_template(
+        'author.html',
+        articleList=articleList,
+        name=authorName,
+        pagenation=pagenation,
+        page=page,
+        articleNumber=articleNumber
+    )
 
 
 

@@ -12,9 +12,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class=""><a >搜索</a></li>
-            <li class=""><a >作者</a></li>
-            <li class="active"><a >作品</a></li>
+            <li class=""><a href="{{ url_for('Search', keyword='') }}">搜索</a></li>
+            <li class=""><a href="{{ url_for('SearchAuthor', authorName='') }}">作者</a></li>
+            <li class="active"><a href="">作品</a></li>
           </ul>
         </div><!--/.nav-collapse -->
 {% endblock %}
