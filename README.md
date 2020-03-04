@@ -11,7 +11,11 @@
 ## 创作无罪
 ## 敬所有作者
 ### 网址 [ao3.org.cn](https://ao3.org.cn)  
-### 食用方法：自己探索
+### 网站食用方法：自己探索
+### 不可靠的部署方法
+    git clone https://github.com/xulouzhe/ao3Search.git
+    cd ao3Search.git
+    python3 ao3.py
 ### 
 ## 更新日志
 ### v1.1
