@@ -38,11 +38,15 @@ def GetDetail(id, chapter=None, full=None):
 
         contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
         content = "<br /><br />".join(contents)
-        print("1")
+        # print("1")
         if (content is None) or (re.sub(r"\s", "", content) == ""):
             contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
             content = "<br /><br />".join(contents)
-            print("2")
+            # print("2")
+        if (content is None) or (re.sub(r"\s", "", content) == ""):
+            contents = html.xpath('//div[contains(@class, "userstuff")]/div/p/text()')
+            content = "<br /><br />".join(contents)
+            # print("2")
 
         # content = re.sub(r"\s", "", content)
         wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
