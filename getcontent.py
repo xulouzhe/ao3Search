@@ -61,13 +61,27 @@ def GetArticle(name, page=1):
             article1 = articleItem()
             article1.title = article.xpath("./div/h4/a/text()")[0]
             article1.url = article.xpath("./div/h4/a/@href")[0]
-            article1.author = article.xpath("./div/h4/a/text()")[1]
-            article1.tag = article.xpath("./div/h5/a/text()")[0]
-            article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
+
+            try:
+                article1.author = article.xpath("./div/h4/a/text()")[1]
+            except:
+                pass
+
+            try:
+                article1.tag = article.xpath("./div/h5/a/text()")[0]
+            except:
+                pass
+
+            try:
+                article1.createTime = article.xpath("./div/p[@class='datetime']/text()")[0]
+            except:
+                pass
+
             try:
                 article1.summary = article.xpath("./blockquote[contains(@class, 'summary')]/p/text()")[0]
             except:
                 pass
+
             articleList.append(article1)
 
     else:
