@@ -13,7 +13,6 @@ headers = {
     'sec-fetch-mode': 'navigate',
     'sec-fetch-site': 'same-origin',
     'sec-fetch-user': '?1',
-    'upgrade-insecure-requests': '1',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) \
     Chrome/80.0.3987.122 Safari/537.36',
 }
@@ -28,26 +27,21 @@ def GetDetail(id, chapter=None, full=None):
     else:
         url = "https://archiveofourown.org/works/{}/chapters/{}?view_adult=true".format(id, chapter)
         print(url)
-
+    res = requests.get(url=url, headers=headers)
+    html = etree.HTML(res.text)
     try:
-        res = requests.get(url=url, headers=headers)
 
-        # print(res)
-        # print(res.text)
-        html = etree.HTML(res.text)
-
-        contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
+        contents = html.xpath('//div[contains(@class, "userstuff")]/p/span[@class="md-plain"]/text()')
         content = "<br /><br />".join(contents)
         # print("1")
-        if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+        if (content is None) or (re.sub(r"\s", "", content) == ""):
             # /works/19315723
             contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
             content = "<br /><br />".join(contents)
             # print(content)
-            if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+            if (content is None) or (re.sub(r"\s", "", content) == ""):
                 contents = html.xpath('//div[contains(@class, "userstuff")]/div/p/text()')
                 content = "<br /><br />".join(contents)
-
 
         # content = re.sub(r"\s", "", content)
         wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
@@ -61,12 +55,11 @@ def GetDetail(id, chapter=None, full=None):
         try:
             articleDetail.chapterTitle = str(html.xpath('//h3[@class="title"]/a/text()')[0])
         except:
-            articleDetail.chapterTitle=" "
+            articleDetail.chapterTitle = " "
 
         articleDetail.content = content
         articleDetail.wrapper = newWrapper
         articleDetail.url = url
-
 
         urls = {}
         urls['NextChapterURL'] = GetNextChapter(html)
@@ -77,18 +70,12 @@ def GetDetail(id, chapter=None, full=None):
         return articleDetail, urls
 
     except:
-        url = "https://archiveofourown.org/works/{}?view_adult=true&view_full_work=true".format(id)
-        # else:
-        #     url = "https://archiveofourown.org/works/{}/chapters/{}?view_adult=true".format(id, chapter)
-        #     print(url)
-
         try:
+            new_href = str(
+                html.xpath("//div[@id='outer']/div[@id='inner']/div[@id='main']/ul[@class='actions']/li[1]/a/@href")[0])
+            url = "https://archiveofourown.org" + new_href
             res = requests.get(url=url, headers=headers)
-
-            # print(res)
-            # print(res.text)
             html = etree.HTML(res.text)
-
             contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
             content = "<br /><br />".join(contents)
             # print("1")
