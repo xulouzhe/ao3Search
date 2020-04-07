@@ -3,6 +3,7 @@ import requests
 from lxml import etree
 from items import articleDetailItem
 import re
+
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,\
     */*;q=0.8,application/signed-exchange;v=b3;q=0.9',
@@ -18,6 +19,12 @@ headers = {
 }
 
 
+def WashContent(content):
+    content = re.sub(r'&nbsp;', "", content)
+    content = re.sub("[\s<br/>]", "", content)
+    return content
+
+
 def GetDetail(id, chapter=None, full=None):
     if chapter is None:
         url = "https://archiveofourown.org/works/{}?view_adult=true".format(id)
@@ -31,17 +38,20 @@ def GetDetail(id, chapter=None, full=None):
     html = etree.HTML(res.text)
     try:
 
-        contents = html.xpath('//div[contains(@class, "userstuff")]/p/span[@class="md-plain"]/text()')
+        contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
         content = "<br /><br />".join(contents)
         # print("1")
-        if (content is None) or (re.sub(r"\s", "", content) == ""):
+        if (content is None) or (WashContent(content) == ""):
             # /works/19315723
             contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
             content = "<br /><br />".join(contents)
             # print(content)
-            if (content is None) or (re.sub(r"\s", "", content) == ""):
+            if (content is None) or (WashContent(content) == ""):
                 contents = html.xpath('//div[contains(@class, "userstuff")]/div/p/text()')
                 content = "<br /><br />".join(contents)
+                # if (content is None) or (WashContent(content) == ""):
+                #     contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
+                #     content = "<br /><br />".join(contents)
 
         # content = re.sub(r"\s", "", content)
         wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
@@ -79,14 +89,17 @@ def GetDetail(id, chapter=None, full=None):
             contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
             content = "<br /><br />".join(contents)
             # print("1")
-            if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+            if (content is None) or (WashContent(content) == ""):
                 # /works/19315723
                 contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
                 content = "<br /><br />".join(contents)
                 # print(content)
-                if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+                if (content is None) or (WashContent(content) == ""):
                     contents = html.xpath('//div[contains(@class, "userstuff")]/div/p/text()')
                     content = "<br /><br />".join(contents)
+                    # if (content is None) or (WashContent(content) == ""):
+                    #     contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
+                    #     content = "<br /><br />".join(contents)
 
             # content = re.sub(r"\s", "", content)
             wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
@@ -118,8 +131,6 @@ def GetDetail(id, chapter=None, full=None):
             return None, None
 
 
-
-
 def GetNextChapter(html):
     try:
         NextChapterURL = str(html.xpath("//li[@class='chapter next']/a/@href")[0])
@@ -128,6 +139,7 @@ def GetNextChapter(html):
         return NextChapterURL
     except:
         return None
+
 
 def GetPreviousChapter(html):
     try:
@@ -138,6 +150,7 @@ def GetPreviousChapter(html):
     except:
         return None
 
+
 def GetEntireChapter(html):
     try:
         EntireChapterURL = str(html.xpath("//li[@class='chapter entire']/a/@href")[0])
@@ -146,7 +159,6 @@ def GetEntireChapter(html):
         return EntireChapterURL
     except:
         return None
-
 
 
 def GetChapterIndex(html):
@@ -160,7 +172,3 @@ def GetChapterIndex(html):
         return None
 
 
-
-
-if __name__ == '__main__':
-    GetDetail(22478632)
