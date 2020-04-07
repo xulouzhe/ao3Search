@@ -77,8 +77,58 @@ def GetDetail(id, chapter=None, full=None):
         return articleDetail, urls
 
     except:
-        print("error")
-        return None, None
+        url = "https://archiveofourown.org/works/{}?view_adult=true&view_full_work=true".format(id)
+        # else:
+        #     url = "https://archiveofourown.org/works/{}/chapters/{}?view_adult=true".format(id, chapter)
+        #     print(url)
+
+        try:
+            res = requests.get(url=url, headers=headers)
+
+            # print(res)
+            # print(res.text)
+            html = etree.HTML(res.text)
+
+            contents = html.xpath('//div[contains(@class, "userstuff")]/p/span/text()')
+            content = "<br /><br />".join(contents)
+            # print("1")
+            if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+                # /works/19315723
+                contents = html.xpath('//div[contains(@class, "userstuff")]/p/text()')
+                content = "<br /><br />".join(contents)
+                # print(content)
+                if (content is None) or (re.sub(r"\s|&nbsp;", "", content) == ""):
+                    contents = html.xpath('//div[contains(@class, "userstuff")]/div/p/text()')
+                    content = "<br /><br />".join(contents)
+
+            # content = re.sub(r"\s", "", content)
+            wrapper = [re.sub(r"<.+?>", " ", etree.tostring(x).decode("utf-8"))
+                       for x in html.xpath('//dl[@class="work meta group"]/*')]
+            newWrapper = [(x + ' ' + y) for (x, y) in zip(wrapper[0::2], wrapper[1::2])]
+            # print(content)
+            articleDetail = articleDetailItem()
+            articleDetail.author = str(html.xpath('//h3[@class="byline heading"]/a/text()')[0])
+            articleDetail.title = str(html.xpath('//h2[@class="title heading"]/text()')[0])
+
+            try:
+                articleDetail.chapterTitle = str(html.xpath('//h3[@class="title"]/a/text()')[0])
+            except:
+                articleDetail.chapterTitle = " "
+
+            articleDetail.content = content
+            articleDetail.wrapper = newWrapper
+            articleDetail.url = url
+
+            urls = {}
+            urls['NextChapterURL'] = GetNextChapter(html)
+            urls['PreviousChapterURL'] = GetPreviousChapter(html)
+            urls['EntireChapterURL'] = GetEntireChapter(html)
+            urls['ChapterIndexURL'] = GetChapterIndex(html)
+            # print("urls:", urls)
+            return articleDetail, urls
+        except:
+            print("error")
+            return None, None
 
 
 
