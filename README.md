@@ -10,7 +10,8 @@
 ### 但是每个人都有爱其所爱的权利
 ## 创作无罪
 ## 敬所有作者
-### 网址 [ao3.org.cn](https://ao3.org.cn)  
+### 反向代理网址 [ao3.org.cn](https://ao3.org.cn)  
+### 本项目网址 [www.ao3.org.cn](https://www.ao3.org.cn)  
 ### 网站食用方法：自己探索
 ### 不可靠的部署方法(需要安装flask)
     git clone https://github.com/xulouzhe/ao3Search.git
